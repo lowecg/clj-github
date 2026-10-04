@@ -1,6 +1,7 @@
 (ns clj-github.httpkit-client
-  (:require [cheshire.core :as cheshire]
-            [clj-github.utils :refer [assoc-some]]
+  (:require [clj-github.utils :refer [assoc-some]]
+            [clojure.string :as string]
+            [jsonista.core :as json]
             [org.httpkit.client :as httpkit]))
 
 (def ^:private success-codes #{200 201 202 204})
@@ -14,14 +15,16 @@
   [{:keys [token-fn]} {:keys [path method body] :or {method :get} :as request}]
   (-> request
       (assoc :method method)
-      (assoc-some :body (and body (cheshire/generate-string body)))
+      (assoc-some :body (and body (json/write-value-as-string body)))
       (assoc :url (str github-url path))
       (assoc-in [:headers "Content-Type"] "application/json")
       (assoc-in [:headers "Authorization"] (str "Bearer " (token-fn)))))
 
 (defn- parse-body [content-type body]
   (if (and content-type (re-find #"application/json" content-type))
-    (cheshire/parse-string body true)
+    ;; An empty JSON body (e.g. 204 No Content) reads as nil, as it did with cheshire
+    (when-not (and (string? body) (string/blank? body))
+      (json/read-value body json/keyword-keys-object-mapper))
     body))
 
 (defn- content-type [response]

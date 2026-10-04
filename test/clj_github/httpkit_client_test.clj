@@ -17,6 +17,12 @@
                        {:headers {:content-type "application/json; charset=utf-8"}
                         :body "{\"value\":\"result\"}"}]
         (is (match? {:body {:value "result"}} (sut/request client {:body {:key "value"}})))))
+    (testing "an empty json body is nil"
+      (with-fake-http [{:method :delete}
+                       {:status  204
+                        :headers {:content-type "application/json; charset=utf-8"}
+                        :body    ""}]
+        (is (match? {:status 204 :body nil} (sut/request client {:method :delete})))))
     (testing "body is not converted if content type is not json"
       (with-fake-http [{:body "{\"key\":\"value\"}"}
                        {:headers {:content-type "some-other-content-type"}

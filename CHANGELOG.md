@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0-scalably-2
+
+- Use jsonista instead of cheshire for request and response bodies (an empty JSON body still reads as nil)
+
 ## 0.10.0-scalably-1
 
 - `with-fake-github` keeps a content type set on a fake response instead of forcing `application/json`, so raw file content can be faked again (as before 0.8.0)

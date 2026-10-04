@@ -1,5 +1,5 @@
 (ns clj-github.state-flow-helper-test
-  (:require [cheshire.core :as json]
+  (:require [jsonista.core :as json]
             [clj-github.httpkit-client :as httpkit-client]
             [clj-github.state-flow-helper :as sfh]
             [clojure.test :refer [deftest is]]
@@ -13,7 +13,7 @@
   (state-flow/run* {:init init-system} a-flow))
 
 (deftest mock-github-flow-honors-responses
-  (let [response-body (json/generate-string {:id 1 :mergeable_state "clean"})
+  (let [response-body (json/write-value-as-string {:id 1 :mergeable_state "clean"})
         [result _] (run-flow
                     (sfh/mock-github-flow
                      {:initial-state {:orgs [{:name  "nubank"

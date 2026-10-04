@@ -14,7 +14,7 @@
             [lein-ancient "0.7.0"]]
 
   :dependencies [[org.clojure/clojure "1.12.6"]
-                 [cheshire "6.2.0"]
+                 [metosin/jsonista "1.0.1"]
                  [http-kit "2.8.1"]
                  [clj-commons/fs "1.6.312"]
                  [ring/ring-codec "1.3.0"]

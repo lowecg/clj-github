@@ -1,5 +1,5 @@
 (ns clj-github.test-helpers-test
-  (:require [cheshire.core :as json]
+  (:require [jsonista.core :as json]
             [clojure.test :refer [deftest is]]
             [clj-github.httpkit-client :as httpkit-client]
             [clj-github.test-helpers :refer [with-fake-github]]
@@ -27,7 +27,7 @@
   ;; parsed back to EDN in the response body.
   (is (match? {:status 200
                :body   {:solution 42}}
-              (with-fake-github ["/api/answer" (json/generate-string {:solution 42})]
+              (with-fake-github ["/api/answer" (json/write-value-as-string {:solution 42})]
                                 (request "/api/answer")))))
 
 (deftest supports-computed-string
@@ -41,7 +41,7 @@
   (is (match? {:status 201
                :body   {:solution 42}}
               (with-fake-github ["/api/answer" {:status 201
-                                                :body   (json/generate-string {:solution 42})}]
+                                                :body   (json/write-value-as-string {:solution 42})}]
                                 (request "/api/answer")))))
 
 (deftest supports-computed-path-key
