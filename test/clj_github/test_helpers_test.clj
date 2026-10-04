@@ -85,3 +85,11 @@
                                    request-fn 200]
                                   [(request "/other")
                                    (request "/api/repos")])))))
+
+(deftest response-keeps-its-own-content-type
+  (is (match? {:status 200
+               :body   "{:raw \"edn\"}"}
+              (with-fake-github ["/api/raw" {:status  200
+                                             :headers {:content-type "ignore"}
+                                             :body    "{:raw \"edn\"}"}]
+                                (request "/api/raw")))))

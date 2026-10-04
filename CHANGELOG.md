@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0-scalably-1
+
+- `with-fake-github` keeps a content type set on a fake response instead of forcing `application/json`, so raw file content can be faked again (as before 0.8.0)
+
 ## 0.10.0-scalably
 
 - Remove GitHub App authentication (`:app-id` + `:private-key`) and the `nubank/clj-github-app` dependency, dropping BouncyCastle and java-jwt

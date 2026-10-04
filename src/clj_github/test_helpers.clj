@@ -12,7 +12,11 @@
 
 (defn- response-spec [response]
   (let [responder  (fake/responder response)
-        force-json #(assoc-in % [:headers :content-type] "application/json")]
+        ;; Default to JSON, but keep a content type the response spec sets itself so
+        ;; raw (non-JSON) content can be faked, as it could before 0.8.0.
+        content-type (or (when (map? response) (get-in response [:headers :content-type]))
+                         "application/json")
+        force-json #(assoc-in % [:headers :content-type] content-type)]
     (fn [orig-fn opts callback]
       ((or callback identity)
        (responder orig-fn opts force-json)))))
