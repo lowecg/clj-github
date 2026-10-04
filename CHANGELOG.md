@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0-scalably
+
+- Remove GitHub App authentication (`:app-id` + `:private-key`) and the `nubank/clj-github-app` dependency, dropping BouncyCastle and java-jwt
+- `new-client` throws when given `:app-id`
+
 ## 0.10.0
 
 - Upgrade project dependencies (clojure, cheshire, http-kit, fs, ring-codec, clj-yaml)

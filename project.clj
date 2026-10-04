@@ -16,7 +16,6 @@
   :dependencies [[org.clojure/clojure "1.12.6"]
                  [cheshire "6.2.0"]
                  [http-kit "2.8.1"]
-                 [nubank/clj-github-app "0.3.0"]
                  [clj-commons/fs "1.6.312"]
                  [ring/ring-codec "1.3.0"]
                  ; Optional dependency used by clj-github.token/hub-config

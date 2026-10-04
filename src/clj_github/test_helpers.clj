@@ -1,6 +1,5 @@
 (ns clj-github.test-helpers
-  (:require [clj-github-app.token-manager]
-            [clj-github.httpkit-client :refer [github-url]]
+  (:require [clj-github.httpkit-client :refer [github-url]]
             [org.httpkit.fake :as fake])
   (:import (java.util.regex Pattern)))
 

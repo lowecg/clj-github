@@ -5,13 +5,18 @@
 
 A Clojure library for interacting with the GitHub REST API.
 
+> **Scalably fork** (`dev.nubank/clj-github "<upstream>-scalably"`): GitHub App authentication
+> (`:app-id` + `:private-key`) is removed, which drops `nubank/clj-github-app`, `com.auth0/java-jwt`
+> and BouncyCastle from the dependency tree. Use `:token` or `:token-fn`. Released to Scalably's
+> S3 Maven repository with `bb release clj-github <version>` from `connect/libs-fork`.
+
 ## Httpkit client
 
 *Example*:
 ```clojure
 (require '[clj-github.httpkit-client :as github-client])
 
-(def client (github-client/new-client {:app-id "app-id" :private-key "private-key"}))
+(def client (github-client/new-client {:token-fn (fn [] (System/getenv "GITHUB_TOKEN"))}))
 
 (github-client/request client {:path "/api/github/..."
                                 :method :get})
@@ -26,15 +31,6 @@ that the client will automatically convert to a url with the github address.
 
 When creating a client you can use a number of options to determine how it will obtain the app
 credentials.
-
-#### `:app-id` + `:private-key`
-
-The client uses the provided app ID and private key to generate an [installation access token](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app)
-for a GitHub App.
-
-The generated token is cached and will be automatically refreshed when needed.
-
-`:private-key` must be a PEM encoded string.
 
 #### `:token`
 

@@ -1,0 +1,8 @@
+;; Lets consumers use this fork via :local/root while changes are under test;
+;; releases are built from project.clj. Keep the two dependency lists in step.
+{:paths ["src"]
+ :deps  {org.clojure/clojure {:mvn/version "1.12.6"}
+         cheshire/cheshire   {:mvn/version "6.2.0"}
+         http-kit/http-kit   {:mvn/version "2.8.1"}
+         clj-commons/fs      {:mvn/version "1.6.312"}
+         ring/ring-codec     {:mvn/version "1.3.0"}}}

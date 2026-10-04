@@ -1,6 +1,5 @@
 (ns clj-github.httpkit-client
   (:require [cheshire.core :as cheshire]
-            [clj-github.token :as token]
             [clj-github.utils :refer [assoc-some]]
             [org.httpkit.client :as httpkit]))
 
@@ -59,16 +58,14 @@
       :else
       (assoc response :body (parse-body (content-type response) body)))))
 
-(defn new-client [{:keys [app-id private-key token org] :as opts}]
+(defn new-client [{:keys [app-id token] :as opts}]
   (cond
     token
     {:token-fn (constantly token)}
 
+    ;; This fork drops GitHub App authentication, and with it clj-github-app and BouncyCastle.
     app-id
-    {:token-fn (token/github-app-token-manager
-                 (assoc-some {:github-app-id      app-id
-                              :github-private-key private-key}
-                             :github-org org))}
+    (throw (ex-info "GitHub App authentication is not supported; supply :token or :token-fn" {:app-id app-id}))
 
     :else
     opts))
